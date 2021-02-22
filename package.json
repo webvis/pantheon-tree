@@ -19,7 +19,8 @@
     "svelte-material-ui": "^1.0.0"
   },
   "dependencies": {
-    "anymapper": "^0.2.1",
+    "@nitaku/tangled-tree-visualization-ii": "https://api.observablehq.com/@nitaku/tangled-tree-visualization-ii.tgz?v=3",
+    "anymapper": "^0.3.1",
     "lunr": "^2.3.9",
     "sirv-cli": "^0.4.4"
   }

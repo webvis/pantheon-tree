@@ -1,5 +1,23 @@
 <script>
-	import { View, Layer, InfoBox, OmniBox, FloorLayersCtrl, ResultsBox, InlineSVG } from 'anymapper'
+	import { Content } from '@smui/card'
+
+	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, make_selectable } from 'anymapper'
+	import notebook from '@nitaku/tangled-tree-visualization-ii'
+
+	const pantheon = {
+		'Zeus': {
+			description: `Zeus is the sky and thunder god in ancient Greek religion, who rules as king of the gods of Mount Olympus. His name is cognate with the first element of his Roman equivalent Jupiter. His mythology and powers are similar, though not identical, to those of Indo-European deities such as Jupiter, Perkūnas, Perun, Indra, Dyaus and Thor.`
+		}
+	}
+
+	function updateSelection(_) {
+		if($selected_id in pantheon)
+			$selection = pantheon[$selected_id]
+		else
+			$selection = null
+	}
+
+	selected_id.subscribe(updateSelection)
 </script>
 
 <style>
@@ -34,9 +52,6 @@
 	:global(.omnibox) {
 		width: 350px;
 	}
-	:global(.view) {
-		background: #e3f4d7;
-	}
 
 	:global(.selectable) {
 		cursor: pointer;
@@ -50,19 +65,15 @@
 
 <div class="wrapper">
 
-<View viewBox="0 0 800 800">
-	<Layer name="T" type="floor">
-		<InlineSVG path='data/floor0.svg'/>
-	</Layer>
-	<Layer name="1" type="floor">
-		<InlineSVG path='data/floor1.svg'/>
-	</Layer>
-	<Layer name="2" type="floor">
-		<InlineSVG path='data/floor2.svg'/>
+<View viewBox="0 0 850 850">
+	<Layer name="default">
+		<ObservableNotebook
+		  notebook={notebook}
+		  variable_name="chart"
+		  on:ready={(e) => make_selectable(e.detail.node, '.selectable', (n) => n.getAttribute('data-id'))}
+		/>
 	</Layer>
 </View>
-
-<FloorLayersCtrl/>
 
 <OmniBox>
 	<ResultsBox>
@@ -71,7 +82,8 @@
 </OmniBox>
 
 <InfoBox>
-	Hello
+	<InfoBoxHeader title="{$selected_id}" subtitle=""/>
+	<Content>{$selection.description}</Content>
 </InfoBox>
 
 </div>
