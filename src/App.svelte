@@ -64,6 +64,9 @@
 	:global(.omnibox) {
 		width: 350px;
 	}
+	:global(.view) {
+		background: rgb(241, 239, 229);
+	}
 
 	:global(.selectable) {
 		cursor: pointer;
