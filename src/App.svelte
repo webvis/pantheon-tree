@@ -75,6 +75,7 @@
 	:global(:root) {
 		--infobox-header-height: 86px;
 		--omnibox-margin: 10px;
+		--primary-bg-color: rgb(102, 102, 102);
 	}
 </style>
 
