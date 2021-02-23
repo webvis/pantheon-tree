@@ -97,7 +97,7 @@
 </OmniBox>
 
 <InfoBox>
-	<InfoBoxHeader title="{$selected_id}" subtitle=""/>
+	<InfoBoxHeader title="{$selected_id}"/>
 	{#if $selection.depiction}
 		<Depiction src={$selection.depiction} positionY="top" aspectRatio="square"/>
 	{/if}
