@@ -1,11 +1,12 @@
 <script>
 	import { Content } from '@smui/card'
 
-	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, make_selectable } from 'anymapper'
+	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable } from 'anymapper'
 	import notebook from '@nitaku/tangled-tree-visualization-ii'
 
 	const pantheon = {
 		'Zeus': {
+			depiction: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Jupiter_Smyrna_Louvre_Ma13.jpg",
 			description: `Zeus is the sky and thunder god in ancient Greek religion, who rules as king of the gods of Mount Olympus. His name is cognate with the first element of his Roman equivalent Jupiter. His mythology and powers are similar, though not identical, to those of Indo-European deities such as Jupiter, Perkūnas, Perun, Indra, Dyaus and Thor.`
 		}
 	}
@@ -83,6 +84,7 @@
 
 <InfoBox>
 	<InfoBoxHeader title="{$selected_id}" subtitle=""/>
+	<Depiction src={$selection.depiction} positionY="top" size="50%"/>
 	<Content>{$selection.description}</Content>
 </InfoBox>
 
