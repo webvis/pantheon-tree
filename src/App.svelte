@@ -1,8 +1,9 @@
 <script>
+	import * as d3 from 'd3'
 	import lunr from 'lunr'
 	import { Content } from '@smui/card'
 
-	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable, results } from 'anymapper'
+	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable, centroid, results } from 'anymapper'
 	import notebook from '@nitaku/tangled-tree-visualization-ii'
 	
 	import ResultsList from './ResultsList.svelte'
@@ -63,6 +64,16 @@
 		
 		return results
 	}
+
+	function handleNotebookReady(e) {
+		let id_accessor = (n) => n.getAttribute('data-id')
+
+		make_selectable(e.detail.node, '.selectable', id_accessor)
+		d3.select(e.detail.node).selectAll('.selectable.node').each(function() {
+			if(id_accessor(this) in pantheon)
+				pantheon[id_accessor(this)].position = centroid(this)
+		})
+	}
 </script>
 
 <style>
@@ -114,12 +125,12 @@
 
 <div class="wrapper">
 
-<View viewBox="0 0 850 850">
+<View viewBox="0 0 850 850" placemark_icon="person">
 	<Layer name="default">
 		<ObservableNotebook
 		  notebook={notebook}
 		  variable_name="chart"
-		  on:ready={(e) => make_selectable(e.detail.node, '.selectable', (n) => n.getAttribute('data-id'))}
+		  on:ready={ handleNotebookReady }
 		/>
 	</Layer>
 </View>
