@@ -1,8 +1,11 @@
 <script>
+	import lunr from 'lunr'
 	import { Content } from '@smui/card'
 
-	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable } from 'anymapper'
+	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable, results } from 'anymapper'
 	import notebook from '@nitaku/tangled-tree-visualization-ii'
+	
+	import ResultsList from './ResultsList.svelte'
 
 	const pantheon = {
 		'Zeus': {
@@ -21,6 +24,7 @@
 			description: `Heracles (/ˈhɛrəkliːz/ HERR-ə-kleez; Greek: Ἡρακλῆς, Hēraklês, Glory/Pride of Hēra, "Hera"), born Alcaeus (Ἀλκαῖος, Alkaios) (/ælˈsiːəs/) or Alcides (Ἀλκείδης, Alkeidēs) (/ælˈsaɪdiːz/), was a divine hero in Greek mythology, the son of Zeus and Alcmene, and the foster son of Amphitryon. He was a great-grandson and half-brother (as they are both sired by the god Zeus) of Perseus. He was the greatest of the Greek heroes, a paragon of masculinity, the ancestor of royal clans who claimed to be Heracleidae (Ἡρακλεῖδαι), and a champion of the Olympian order against chthonic monsters. In Rome and the modern West, he is known as Hercules, with whom the later Roman emperors, in particular Commodus and Maximian, often identified themselves. The Romans adopted the Greek version of his life and works essentially unchanged, but added anecdotal detail of their own, some of it linking the hero with the geography of the Central Mediterranean. Details of his cult were adapted to Rome as well.`
 		}
 	}
+	Object.keys(pantheon).forEach(id => pantheon[id].id = id)
 
 	function updateSelection(_) {
 		if($selected_id in pantheon)
@@ -30,6 +34,35 @@
 	}
 
 	selected_id.subscribe(updateSelection)
+
+	// search
+	let index = lunr(function () {
+		let this_index = this
+		this_index.pipeline.remove(lunr.stemmer)
+		this_index.searchPipeline.remove(lunr.stemmer)
+
+		this_index.ref('id')
+		this_index.field('id')
+		this_index.field('description')
+
+		Object.keys(pantheon).forEach(id => this_index.add(pantheon[id]))
+	})
+
+	function handleSearch(e) {
+		$results = search(e.detail.query)
+	}
+
+	function search(query) {
+		if(query == '') {
+			return []
+		}
+
+		let actual_query = query.trim().split(/\s+/).map(term => '+'+term+'*').join(' ')
+		
+		let results = index.search(`${actual_query}`).map(d => pantheon[d.ref])
+		
+		return results
+	}
 </script>
 
 <style>
@@ -91,9 +124,9 @@
 	</Layer>
 </View>
 
-<OmniBox>
+<OmniBox on:search={ handleSearch }>
 	<ResultsBox>
-		Hi
+		<ResultsList/>
 	</ResultsBox>
 </OmniBox>
 
