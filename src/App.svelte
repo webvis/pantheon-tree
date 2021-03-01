@@ -3,7 +3,7 @@
 	import lunr from 'lunr'
 	import { Content } from '@smui/card'
 
-	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, make_selectable, centroid, results } from 'anymapper'
+	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, Placemark, make_selectable, centroid, results } from 'anymapper'
 	import notebook from '@nitaku/tangled-tree-visualization-ii'
 	
 	import ResultsList from './ResultsList.svelte'
@@ -125,7 +125,7 @@
 
 <div class="wrapper">
 
-<View viewBox="0 0 850 850" placemark_icon="person">
+<View viewBox="0 0 850 850">
 	<Layer name="default">
 		<ObservableNotebook
 		  notebook={notebook}
@@ -133,6 +133,7 @@
 		  on:ready={ handleNotebookReady }
 		/>
 	</Layer>
+	<Placemark icon="person"/>
 </View>
 
 <OmniBox on:search={ handleSearch }>
