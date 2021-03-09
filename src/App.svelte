@@ -135,6 +135,15 @@ In Greek mythology, **Cronus**, Cronos, or Kronos (/ˈkroʊnəs/ or /ˈkroʊnɒs
 		cursor: pointer;
 	}
 
+	footer {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		font-size: 10px;
+		background: rgba(255,255,255,0.6);
+		padding: 2px;
+	}
+
 	:global(:root) {
 		--infobox-header-height: 86px;
 		--omnibox-margin: 10px;
@@ -167,5 +176,7 @@ In Greek mythology, **Cronus**, Cronos, or Kronos (/ˈkroʊnəs/ or /ˈkroʊnɒs
 	{/if}
 	<Content>{@html marked($selection.description)}</Content>
 </InfoBox>
+
+<footer>Powered by <a href="https://github.com/webvis/anymapper">anymapper</a>, by Human Centered Technologies Lab @IIT-CNR</footer>
 
 </div>
