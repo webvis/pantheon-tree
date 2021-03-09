@@ -4,7 +4,7 @@
 	import { Content } from '@smui/card'
 	import marked from 'marked'
 
-	import { selection, selected_id, View, Layer, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, Placemark, make_selectable, centroid, results } from 'anymapper'
+	import { selection, selected_id, View, InfoBox, InfoBoxHeader, OmniBox, ResultsBox, ObservableNotebook, Depiction, Placemark, make_selectable, centroid, results } from 'anymapper'
 	import notebook from '@nitaku/tangled-tree-visualization-ii'
 	
 	import ResultsList from './ResultsList.svelte'
@@ -153,13 +153,11 @@ In Greek mythology, **Cronus**, Cronos, or Kronos (/ˈkroʊnəs/ or /ˈkroʊnɒs
 <div class="wrapper">
 
 <View viewBox="0 0 850 850">
-	<Layer name="default">
-		<ObservableNotebook
-		  notebook={notebook}
-		  variable_name="chart"
-		  on:ready={ handleNotebookReady }
-		/>
-	</Layer>
+	<ObservableNotebook
+		notebook={notebook}
+		variable_name="chart"
+		on:ready={ handleNotebookReady }
+	/>
 	<Placemark icon="person"/>
 </View>
 
